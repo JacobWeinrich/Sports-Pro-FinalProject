@@ -1,0 +1,46 @@
+﻿@model List<Incident>
+@{
+    Layout = "_Layout";
+    ViewData["title"] = "Incident Manager Page";
+}
+@{
+    string c = ViewContext.RouteData.Values["Controller"].ToString() ?? "";
+    string a = ViewContext.RouteData.Values["Action"].ToString() ?? "";
+    string s = ViewContext.RouteData.Values["sort"]?.ToString() ?? "";
+}
+
+<h2>Incident Manager</h2>
+<a asp-controller="Incident" asp-action="Add" class="btn btn-primary">Add Incident</a>
+<div class="btn-group" role="group">
+    <a asp-action="List" asp-route-sort="All" class="btn btn-lg btn-primary @(s.ToLower() != "unassigned" && s.ToLower() != "open"  ? "fw-bold" : "fw-normal")" >All</a>
+    <a asp-action="List" asp-route-sort="Unassigned" class="btn btn-lg btn-primary @(s.ToLower() == "unassigned" ? "fw-bold" : "fw-normal")">Unassigned</a>
+    <a asp-action="List" asp-route-sort="Open" class="btn btn-lg btn-primary @(s.ToLower() == "open" ? "fw-bold" : "fw-normal")">Open</a>
+</div>
+<table class="table table-secondary mt-2">
+    <thead>
+        <tr class="text-center">
+            <th>#</th>
+            <th>Title</th>
+            <th>Customer</th>
+            <th>Product</th>
+            <th>DateOpened</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var incident in Model)
+        {
+            <tr class="text-center">
+                <td class="col-1">@incident.IncidentId</td>
+                <td class="col-2">@incident.Title</td>
+                <td class="col-2">@incident.Customer.FirstName @incident.Customer.LastName</td>
+                <td class="col-2">@incident.Product.Name</td>
+                <td class="col-2">@incident.DateOpened</td>
+                <td class="col-2">
+                    <a asp-controller="Incident" asp-action="Edit" asp-route-id="@incident.IncidentId" asp-route-slug="@incident.Slug" class="btn btn-primary me-2">Edit</a>
+                    <a asp-controller="Incident" asp-action="Delete" asp-route-id="@incident.IncidentId" asp-route-slug="@incident.Slug" class="btn btn-primary">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

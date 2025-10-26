@@ -1,0 +1,85 @@
+﻿@model TechIncidentViewModel
+@{
+    Layout = "_Layout";
+    ViewData["title"] = "TechIncident";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-1"><i class="fas fa-user-cog me-2"></i>Technician: @Model.Technician.Name</h2>
+                    <p class="text-muted mb-0">Assigned/Open Incidents</p>
+                </div>
+                <a asp-action="Index" asp-controller="TechIncident" asp-area="" class="btn btn-outline-primary">
+                    <i class="fas fa-exchange-alt me-2"></i>Switch Technician
+                </a>
+            </div>
+        </div>
+    </div>
+
+    @{
+        if (@Model.Incidents.Count() == 0)
+        {
+            <div class="alert alert-info text-center" role="alert">
+                <i class="fas fa-check-circle me-2"></i>
+                <strong>No open incidents</strong> - All incidents have been resolved!
+            </div>
+        }
+        else
+        {
+            <div class="card shadow-sm">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 30%;">
+                                        <i class="fas fa-heading me-1"></i>Title
+                                    </th>
+                                    <th style="width: 20%;">
+                                        <i class="fas fa-user me-1"></i>Customer
+                                    </th>
+                                    <th style="width: 25%;">
+                                        <i class="fas fa-box me-1"></i>Product
+                                    </th>
+                                    <th class="text-center" style="width: 15%;">
+                                        <i class="fas fa-calendar me-1"></i>Date Opened
+                                    </th>
+                                    <th class="text-center" style="width: 10%;">
+                                        <i class="fas fa-cogs me-1"></i>Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var incident in Model.Incidents)
+                                {
+                                    <tr>
+                                        <td class="fw-medium">@incident.Title</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <i class="fas fa-user-circle text-muted me-2"></i>
+                                                <span>@incident.Customer.FirstName @incident.Customer.LastName</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-light text-dark border">@incident.Product.Name</span>
+                                        </td>
+                                        <td class="text-center text-muted">@incident.DateOpened.ToShortDateString()</td>
+                                        <td class="text-center">
+                                            <a asp-action="Edit" asp-controller="TechIncident" asp-route-id="@incident.IncidentId" asp-area="" 
+                                               class="btn btn-outline-primary btn-sm">
+                                                <i class="fas fa-edit me-1"></i>Edit
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

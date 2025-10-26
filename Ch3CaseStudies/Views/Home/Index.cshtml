@@ -1,0 +1,174 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@{
+    Layout = "_Layout";
+    ViewData["title"] = "Home Page";
+}
+
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1 class="fade-in">SportsPro Technical Support</h1>
+                <p class="lead fade-in">Comprehensive sports management software for the modern sports enthusiast</p>
+                <div class="mt-4 fade-in">
+                    <a href="#features" class="btn btn-light btn-lg me-3">
+                        <i class="fas fa-arrow-down me-2"></i>Explore Features
+                    </a>
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-sign-in-alt me-2"></i>Get Started
+                        </a>
+                    }
+                </div>
+            </div>
+            <div class="col-lg-4 text-center">
+                <i class="fas fa-dumbbell" style="font-size: 8rem; opacity: 0.3;"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="container my-5" id="features">
+    <div class="row">
+        <div class="col-12 text-center mb-5">
+            <h2 class="display-5 fw-bold">Why Choose SportsPro?</h2>
+            <p class="lead text-muted">Powerful tools for managing your sports operations</p>
+        </div>
+    </div>
+    
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="feature-card">
+                <i class="fas fa-cogs"></i>
+                <h4>Advanced Management</h4>
+                <p>Streamline your sports operations with our comprehensive management tools.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card">
+                <i class="fas fa-headset"></i>
+                <h4>24/7 Support</h4>
+                <p>Round-the-clock technical support to keep your operations running smoothly.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card">
+                <i class="fas fa-chart-line"></i>
+                <h4>Analytics & Reports</h4>
+                <p>Make data-driven decisions with our powerful analytics and reporting features.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Admin Features -->
+@if (User.IsInRole("Admin"))
+{
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="mb-0"><i class="fas fa-user-shield me-2"></i>Admin Dashboard</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-4">
+                            <div class="col-md-6 col-lg-4">
+                                <div class="d-flex align-items-center p-3 border rounded">
+                                    <i class="fas fa-box text-primary me-3" style="font-size: 2rem;"></i>
+                                    <div>
+                                        <h5 class="mb-1">Product Management</h5>
+                                        <p class="text-muted mb-0">Manage your product catalog</p>
+                                        <a asp-controller="Product" asp-action="List" class="btn btn-sm btn-outline-primary mt-2">Manage Products</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="d-flex align-items-center p-3 border rounded">
+                                    <i class="fas fa-user-cog text-primary me-3" style="font-size: 2rem;"></i>
+                                    <div>
+                                        <h5 class="mb-1">Technician Management</h5>
+                                        <p class="text-muted mb-0">Manage your technical team</p>
+                                        <a asp-controller="Technician" asp-action="List" class="btn btn-sm btn-outline-primary mt-2">Manage Technicians</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="d-flex align-items-center p-3 border rounded">
+                                    <i class="fas fa-users text-primary me-3" style="font-size: 2rem;"></i>
+                                    <div>
+                                        <h5 class="mb-1">Customer Management</h5>
+                                        <p class="text-muted mb-0">Manage customer relationships</p>
+                                        <a asp-controller="Customer" asp-action="List" class="btn btn-sm btn-outline-primary mt-2">Manage Customers</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="d-flex align-items-center p-3 border rounded">
+                                    <i class="fas fa-exclamation-triangle text-primary me-3" style="font-size: 2rem;"></i>
+                                    <div>
+                                        <h5 class="mb-1">Incident Management</h5>
+                                        <p class="text-muted mb-0">Track and resolve incidents</p>
+                                        <a asp-controller="Incident" asp-action="List" class="btn btn-sm btn-outline-primary mt-2">Manage Incidents</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="d-flex align-items-center p-3 border rounded">
+                                    <i class="fas fa-clipboard-list text-primary me-3" style="font-size: 2rem;"></i>
+                                    <div>
+                                        <h5 class="mb-1">Registration Management</h5>
+                                        <p class="text-muted mb-0">Manage product registrations</p>
+                                        <a asp-controller="Registration" asp-action="Index" class="btn btn-sm btn-outline-primary mt-2">Manage Registrations</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="d-flex align-items-center p-3 border rounded">
+                                    <i class="fas fa-user-shield text-primary me-3" style="font-size: 2rem;"></i>
+                                    <div>
+                                        <h5 class="mb-1">User Management</h5>
+                                        <p class="text-muted mb-0">Manage accounts and admin privileges</p>
+                                        <a asp-controller="User" asp-action="List" asp-area="Admin" class="btn btn-sm btn-outline-primary mt-2">Manage Users</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Technician Features -->
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h3 class="mb-0"><i class="fas fa-tools me-2"></i>Technician Tools</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center p-3 border rounded">
+                                <i class="fas fa-edit text-success me-3" style="font-size: 2rem;"></i>
+                                <div>
+                                    <h5 class="mb-1">Update Incidents</h5>
+                                    <p class="text-muted mb-0">Update and manage incident reports</p>
+                                    <a asp-action="Index" asp-controller="TechIncident" class="btn btn-sm btn-outline-success mt-2">
+                                        <i class="fas fa-arrow-right me-1"></i>Update Incidents
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

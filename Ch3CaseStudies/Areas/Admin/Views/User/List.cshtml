@@ -1,0 +1,116 @@
+﻿@model List<Ch3CaseStudies.Areas.Admin.Controllers.UserWithRolesViewModel>
+@{ 
+    ViewData["title"] = "User Management";
+    Layout = "_Layout";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">User Management</h2>
+            
+            @if (TempData["Message"] != null)
+            {
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    @TempData["Message"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">All Users</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Roles</th>
+                                        <th>Admin Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var userWithRoles in Model)
+                                    {
+                                        <tr class="@(userWithRoles.IsDefaultAdmin ? "table-warning" : "")">
+                                            <td>
+                                                @userWithRoles.User.UserName
+                                                @if (userWithRoles.IsDefaultAdmin)
+                                                {
+                                                    <span class="badge bg-warning text-dark ms-2">Default Admin</span>
+                                                }
+                                            </td>
+                                            <td>@userWithRoles.User.Email</td>
+                                            <td>
+                                                @if (userWithRoles.Roles.Any())
+                                                {
+                                                    @foreach (var role in userWithRoles.Roles)
+                                                    {
+                                                        <span class="badge bg-primary me-1">@role</span>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">No roles</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (userWithRoles.Roles.Contains("Admin"))
+                                                {
+                                                    <span class="badge bg-success">Admin</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">User</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (!userWithRoles.IsDefaultAdmin)
+                                                {
+                                                    <form asp-action="ToggleAdminRole" method="post" class="d-inline">
+                                                        <input type="hidden" name="userId" value="@userWithRoles.User.Id" />
+                                                        @if (userWithRoles.Roles.Contains("Admin"))
+                                                        {
+                                                            <button type="submit" class="btn btn-warning btn-sm" 
+                                                                    onclick="return confirm('Are you sure you want to remove admin privileges from @userWithRoles.User.UserName?')">
+                                                                Remove Admin
+                                                            </button>
+                                                        }
+                                                        else
+                                                        {
+                                                            <button type="submit" class="btn btn-success btn-sm" 
+                                                                    onclick="return confirm('Are you sure you want to grant admin privileges to @userWithRoles.User.UserName?')">
+                                                                Make Admin
+                                                            </button>
+                                                        }
+                                                    </form>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">Protected</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">
+                            <h5>No users found</h5>
+                            <p>There are no users in the system yet.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
